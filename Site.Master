@@ -1,0 +1,288 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="Laba2.mySite" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Минералы Севера</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #wrapper {
+            width: 80%;
+            margin: 0 auto;
+            border: 1px solid blue;
+            padding: 10px;
+        }
+
+        #header {
+            border: 1px solid black;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        #slider {
+            border: 1px solid blue;
+            padding: 10px;
+            margin-bottom: 10px;
+            height: 250px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .slide-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .slide-image {
+            width: 150px;
+            height: 150px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+
+        .slide-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+
+        .slide-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .slide-dot.active {
+            background-color: #333;
+        }
+
+        #content {
+            border: 1px solid green;
+            padding: 10px;
+            margin-bottom: 10px;
+            min-height: 300px;
+        }
+
+        #footer {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #menu {
+            margin: 10px 0;
+        }
+
+        #menu ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        #menu li {
+            float: left;
+        }
+
+        #menu li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        #menu li a:hover {
+            background-color: #111;
+        }
+        
+        .menu {
+            width: 100%;
+            background-color: #333;
+        }
+        
+        .menu td {
+            padding: 0;
+        }
+        
+        .menu a {
+            display: block;
+            padding: 14px 16px;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .menu a:hover {
+            background-color: #111;
+        }
+        
+        .menu-item-selected a {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .auto-style1 {
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+        .auto-style2 {
+            width: 250px;
+            height: 190px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script type="text/javascript">
+        let currentSlide = 0;
+        
+        function initSlider() {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slide-dot');
+            
+            if (slides.length > 0) {
+                slides[0].classList.add('active');
+                if (dots.length > 0) {
+                    dots[0].classList.add('active');
+                }
+            }
+            
+            //setInterval(nextSlide, 5000);
+            
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function() {
+                    goToSlide(index);
+                });
+            });
+        }
+        
+        function goToSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slide-dot');
+            
+            if (index < 0 || index >= slides.length) return;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            
+            currentSlide = index;
+        }
+        
+        function nextSlide() {
+            const slides = document.querySelectorAll('.slide');
+            currentSlide = (currentSlide + 1) % slides.length;
+            goToSlide(currentSlide);
+        }
+        
+        function prevSlide() {
+            const slides = document.querySelectorAll('.slide');
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            goToSlide(currentSlide);
+        }
+        
+        document.addEventListener('DOMContentLoaded', initSlider);
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div id="wrapper">
+            <div id="header">
+                <h1>Минералы Севера</h1>
+                <div id="menu">
+                    <asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" ShowStartingNode="false" />
+                    <asp:Menu ID="NavigationMenu" runat="server" DataSourceID="SiteMapDataSource1"
+                        Orientation="Horizontal" StaticDisplayLevels="1"
+                        CssClass="menu" EnableViewState="false" IncludeStyleBlock="false"
+                        StaticMenuItemStyle-CssClass="menu-item" 
+                        StaticSelectedStyle-CssClass="menu-item-selected">
+                        <LevelMenuItemStyles>
+                            <asp:MenuItemStyle CssClass="menu-item" />
+                        </LevelMenuItemStyles>
+                        <StaticHoverStyle BackColor="#111111" />
+                        <StaticMenuStyle CssClass="menu" />
+                        <StaticSelectedStyle CssClass="menu-item-selected" />
+                    </asp:Menu>
+                </div>
+            </div>
+
+            <div id="slider">
+                <div class="slide active">
+                    <div class="slide-content">
+                        <img src="images/apatite.jpg" alt="Апатит" class="auto-style2" />
+                        <h3>Апатит</h3>
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="slide-content">
+                        <img src="images/evdialit.jpg" alt="Эвдиалит" class="auto-style2" />
+                        <h3>Эвдиалит</h3>
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="slide-content">
+                        <img src="images/diamond.jpg" alt="Алмазы" class="auto-style2" />
+                        <h3>Алмазы</h3>
+                    </div>
+                </div>
+                <div class="auto-style1">
+                    <span class="slide-dot active" onclick="goToSlide(0)"></span>
+                    <span class="slide-dot" onclick="goToSlide(1)"></span>
+                    <span class="slide-dot" onclick="goToSlide(2)"></span>
+                </div>
+            </div>
+
+            <div id="content">
+                <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+
+            <div id="footer">
+                <p>Подвал сайта (footer) &copy; <%= DateTime.Now.Year %> Минералы Севера</p>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

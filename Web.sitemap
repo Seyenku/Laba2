@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="~/Default.aspx" title="Главная"  description="Главная страница">
+    <siteMapNode url="~/Types.aspx" title="Типы минералов"  description="Типы минералов севера" />
+    <siteMapNode url="~/Locations.aspx" title="Месторождения"  description="Местонахождение минералов" />
+	<siteMapNode url="~/Gallery.aspx" title="Галерея"  description="Фотогалерея минералов" />
+	<siteMapNode url="~/About.aspx" title="О проекте"  description="Информация о проекте" />
+  </siteMapNode>
+</siteMap>
