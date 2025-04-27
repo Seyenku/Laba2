@@ -232,9 +232,9 @@
             <div id="header">
                 <h1>Минералы Севера</h1>
                 <div id="menu">
-                    <asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" ShowStartingNode="false" />
+                    <asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" ShowStartingNode="true" />
                     <asp:Menu ID="NavigationMenu" runat="server" DataSourceID="SiteMapDataSource1"
-                        Orientation="Horizontal" StaticDisplayLevels="1"
+                        Orientation="Horizontal" StaticDisplayLevels="2"
                         CssClass="menu" EnableViewState="false" IncludeStyleBlock="false"
                         StaticMenuItemStyle-CssClass="menu-item" 
                         StaticSelectedStyle-CssClass="menu-item-selected">
