@@ -304,7 +304,7 @@
             </div>
 
             <div id="footer">
-                <p class="mb-0">Подвал сайта (footer) &copy; <%= DateTime.Now.Year %> Минералы Севера</p>
+                <p class="mb-0">&copy; <%= DateTime.Now.Year %> Минералы Севера</p>
             </div>
         </div>
     </form>
